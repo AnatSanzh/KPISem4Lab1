@@ -1,0 +1,3 @@
+class LibraryRecord:
+    title = ""
+    content = ""
