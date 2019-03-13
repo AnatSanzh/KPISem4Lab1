@@ -1,19 +1,33 @@
 import json, record
 
+
 class JsonRecordStorage:
-    records = []
-    fileName = ""
+    def __init__(self, name):
+        self.fileName = name
+        with open('data.txt', 'r') as myfile:
+            self.records = json.loads(myfile.read())
 
     def add(self, title, content):
-        recToAdd = record.LibraryRecord()
-        recToAdd.content = content
-        recToAdd.title = title
+        rec_to_add = record.LibraryRecord()
+        rec_to_add.content = content
+        rec_to_add.title = title
+
+        self.records.append(rec_to_add)
+
+        self.save()
 
     def remove(self, title):
-        pass
+        self.records = [x for x in self.records if x.tittle == title]
+
+        self.save()
 
     def get(self, title):
-        pass
+        return next((x for x in self.records if x.title == title), None)
 
-    def load(self, name):
-        pass
+    def clear(self):
+        self.records = []
+        self.save()
+
+    def save(self):
+        with open(self.fileName, 'w') as myfile:
+            myfile.write(json.dumps(self.records))
