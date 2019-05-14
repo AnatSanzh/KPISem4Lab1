@@ -20,6 +20,7 @@ class Server:
 
         self._api = Api(self._underlying_app)
         #self._api.add_resource(TodoSimple, '/<:todo_id>')
+        # todo: implement handlers form requests!!!
 
     def run(self):
         self._underlying_app.run()

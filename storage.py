@@ -43,3 +43,7 @@ class JsonRecordStorage:
     def _save(self):
         with open(self.fileName, 'w') as myfile:
             myfile.write(json.dumps(self.records))
+
+    def update(self, number: str, data: object):
+        # todo: implement!!!
+        pass

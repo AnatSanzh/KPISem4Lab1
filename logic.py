@@ -12,21 +12,25 @@ def get_records(offset: int, count: int) -> list:
     :param count: Number of records to return
     :return: List with records
     """
-
+    # todo: implement!!!
     return []
 
 
 def add_record():
+    # todo: implement!!!
     pass
 
 
 def remove_record():
+    # todo: implement!!!
     pass
 
 
 def update_record():
+    # todo: implement!!!
     pass
 
 
 def remove_records_all():
+    # todo: implement!!!
     pass
