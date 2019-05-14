@@ -1,22 +1,9 @@
-from flask import Flask, request
-from flask_restful import Resource, Api
+from server import Server
+from cui import ConsoleInterface
 
-app = Flask(__name__)
-api = Api(app)
-
-todos = {}
-
-
-class TodoSimple(Resource):
-    def get(self, todo_id):
-        return {todo_id: todos[todo_id]}
-
-    def put(self, todo_id):
-        todos[todo_id] = request.form['data']
-        return {todo_id: todos[todo_id]}
-
-
-api.add_resource(TodoSimple, '/<string:todo_id>')
+server_app = Server()
+console_app = ConsoleInterface()
 
 if __name__ == '__main__':
-    app.run(debug=True, threaded=True)
+    server_app.run()
+    console_app.run()
