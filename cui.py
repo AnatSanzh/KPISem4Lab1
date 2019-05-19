@@ -1,8 +1,10 @@
 from storage import JsonRecordStorage
-#from enum import Enum
+import os
 
+# import sys
+# from enum import Enum
 
-#class _CUIStates(Enum):
+# class _CUIStates(Enum):
 #    """Class that is used to track ConsoleInterface internal state"""
 #    ISLE: int = 1
 #    SHOW_RECORDS: int = 2
@@ -14,24 +16,36 @@ class ConsoleInterface:
 #    state = _CUIStates.ISLE
 #    state_data = {}
 
-    def _update(self):
-        """Main update function"""
-        # todo: change comments
-        # todo: implement!!!
-        """
-            required functional:
-            1) can show list of records
-            2) user can perform CRUD on records
-            3) can clear(delete all) records
-        """
-
-        # it reads input
-        # it processes it
-        # it shows output
-        # basically game-loop without game
+    def update(self):
+        print("1. Show records")
+        print("2. Add record")
+        print("3. Remove records by phone number")
+        print("4. Erase all records")
+        user_input = int(input())
+        json_record_obj = JsonRecordStorage("data/records_data.json")
+        if user_input == 1:
+            for record in JsonRecordStorage.records:
+                record.write_record()
+        elif user_input == 2:
+            print("Write phone number:")
+            add_phone_number_input = input()
+            print("Write name of the record:")
+            add_name_input = input()
+            print("Write address:")
+            add_address_input = input()
+            JsonRecordStorage.add(json_record_obj, add_phone_number_input, add_name_input, add_address_input)
+        elif user_input == 3:
+            print("Write phone number:")
+            remove_phone_number_input = input()
+            JsonRecordStorage.remove(json_record_obj, remove_phone_number_input)
+        elif user_input == 4:
+            print("All records have been erased")
+            del JsonRecordStorage.records[0 : len(JsonRecordStorage.records)]
         pass
 
     def run(self):
+        while True:
+            self.update()
         """Starts CUI"""
         # todo: implement!!!
         """
@@ -39,3 +53,7 @@ class ConsoleInterface:
             maybe in another thread
         """
         pass
+
+
+ob = ConsoleInterface()
+ConsoleInterface.run(ob)
