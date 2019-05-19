@@ -53,7 +53,3 @@ class ConsoleInterface:
             maybe in another thread
         """
         pass
-
-
-ob = ConsoleInterface()
-ConsoleInterface.run(ob)
