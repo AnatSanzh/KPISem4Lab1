@@ -28,7 +28,6 @@ class JsonRecordStorage:
         self._save()
 
     def remove(self, number: str):
-        """Removes record from storage by """
         self.records = [x for x in self.records if x.phone_number == number]
 
         self._save()
