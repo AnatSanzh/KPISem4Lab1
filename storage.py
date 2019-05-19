@@ -34,5 +34,5 @@ class JsonRecordStorage:
             myfile.write(json.dumps(self.records))
 
     def update(self, number: str, new_record: PhoneDirectoryRecord):
-        self.records = [x if x.phone_number == number else new_record for x in self.records]
+        self.records = [x if x.phone_number != number else new_record for x in self.records]
         pass
