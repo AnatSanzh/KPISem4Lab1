@@ -6,7 +6,7 @@ class JsonRecordStorage:
     """Class that can be used to interact with phone book record list. Saves data in json format"""
     def __init__(self, name: str):
         self.fileName = name
-        with open('data.txt', 'r') as myfile:
+        with open(self.fileName, 'r') as myfile:
             self.records = json.loads(myfile.read())
 
     def add(self, number: str, name: str, address: str):
