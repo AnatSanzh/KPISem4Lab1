@@ -28,7 +28,12 @@ class JsonRecordStorage:
         self._save()
 
     def remove(self, number: str):
-        """Removes record from storage by """
+        """
+        Removes record from storage by "number"
+
+        :param number: "number" parameter of record
+        :return:
+        """
         self.records = [x for x in self.records if x.phone_number == number]
 
         self._save()
