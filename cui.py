@@ -1,4 +1,4 @@
-import logic
+from storage import JsonRecordStorage
 #from enum import Enum
 
 
