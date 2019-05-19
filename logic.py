@@ -1,38 +1,36 @@
-from storage import JsonRecordStorage
-import record
+import storage
 
 
-currentStorage = JsonRecordStorage("data/records_data.json")
+currentStorage = storage.JsonRecordStorage("data/records_data.json")
 
 
 def get_records(offset: int, count: int) -> list:
-    if len(currentStorage.records) > offset + count + 1:
-        return currentStorage.records[offset:offset + count + 1]
-    else:
-        return currentStorage.records[offset:len(currentStorage.records)]
+    """
+    Returns list of phone book records
+
+    :param offset: From what positions start getting records
+    :param count: Number of records to return
+    :return: List with records
+    """
+    # todo: implement!!!
+    return []
 
 
-def add_record(new_record: record):
-    currentStorage.records.append(new_record)
+def add_record():
+    # todo: implement!!!
     pass
 
 
-def remove_record(phone_number: str):
-    for cur_record in currentStorage.records:
-        if cur_record.phone_number == phone_number:
-            currentStorage.records.remove(cur_record)
-            break
+def remove_record():
+    # todo: implement!!!
     pass
 
 
-def update_record(phone_number: int, new_record: record):
-    for cur_record in currentStorage.records:
-        if cur_record.phone_number == phone_number:
-            currentStorage.records[currentStorage.records.index(cur_record)] = new_record
-            break
+def update_record():
+    # todo: implement!!!
     pass
 
 
 def remove_records_all():
-    currentStorage.records = []
+    # todo: implement!!!
     pass
