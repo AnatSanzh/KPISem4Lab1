@@ -12,43 +12,42 @@ from storage import JsonRecordStorage
 class ConsoleInterface:
     """Class that provides CUI that allows to interact with phone record list"""
 
-#    state = _CUIStates.ISLE
-#    state_data = {}
+    def __init__(self, storage: JsonRecordStorage):
+        self.storage = storage
 
     def update(self):
         print("1. Show records \n2. Add record \n3. Remove records by phone number \n4. Erase all records")
         user_input = int(input())
-        json_record_obj = JsonRecordStorage("data/records_data.json")
         if user_input == 1:
             self.show_recs()
         elif user_input == 2:
-            self.add_rec(json_record_obj)
+            self.add_rec(self.storage)
         elif user_input == 3:
-            self.remove_rec(json_record_obj)
+            self.remove_rec(self.storage)
         elif user_input == 4:
             self.remove_all_recs()
 
     def show_recs(self):
-        for record in JsonRecordStorage.records:
+        for record in self.storage.records:
             record.write_record()
 
-    def add_rec(self, data: JsonRecordStorage):
+    def add_rec(self):
         print("Write phone number:")
         add_phone_number_input = input()
         print("Write name of the record:")
         add_name_input = input()
         print("Write address:")
         add_address_input = input()
-        JsonRecordStorage.add(data, add_phone_number_input, add_name_input, add_address_input)
+        self.storage.add(add_phone_number_input, add_name_input, add_address_input)
 
-    def remove_rec(self, data: JsonRecordStorage):
+    def remove_rec(self):
         print("Write phone number:")
         remove_phone_number_input = input()
-        JsonRecordStorage.remove(data, remove_phone_number_input)
+        self.storage.remove(remove_phone_number_input)
 
     def remove_all_recs(self):
         print("All records have been erased")
-        del JsonRecordStorage.records[0: len(JsonRecordStorage.records)]
+        del self.storage.records[0: len(self.storage.records)]
 
     def run(self):
         while True:
