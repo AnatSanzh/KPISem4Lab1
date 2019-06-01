@@ -21,9 +21,9 @@ class ConsoleInterface:
         if user_input == 1:
             self.show_recs()
         elif user_input == 2:
-            self.add_rec(self.storage)
+            self.add_rec()
         elif user_input == 3:
-            self.remove_rec(self.storage)
+            self.remove_rec()
         elif user_input == 4:
             self.remove_all_recs()
 
