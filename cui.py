@@ -19,7 +19,7 @@ class ConsoleInterface:
         """
 
 
-        :return:
+        :return: one of 5 results on user`s choice
         """
         print("\n1. Show records"
               "\n2. Add record"
@@ -31,11 +31,11 @@ class ConsoleInterface:
         while True:
             try:
                 user_input = int(input())
-                if user_input < 1 or user_input > 4:
+                if user_input < 1 or user_input > 5:
                     raise ValueError  # this will send it to the print message and back to the input option
                 break
             except ValueError:
-                print("Invalid integer. The number must be in the range of 1-10.")
+                print("Invalid integer. The number must be in the range of 1-5.")
 
         func = self.switcher.get(user_input, lambda: "Invalid command")
         print(func())
@@ -45,7 +45,7 @@ class ConsoleInterface:
         """
 
 
-        :return:
+        :return: a string to which all records are appended
         """
         if len(self.storage.records) == 0:
             return "Records not found!"
@@ -62,7 +62,7 @@ class ConsoleInterface:
         ['Record added successfully']
 
 
-        :return:
+        :return: adds record to the storage and saves it
         """
         print("Write phone number:")
         add_phone_number_input = input()
@@ -79,7 +79,7 @@ class ConsoleInterface:
         ['Record not found']
 
 
-        :return:
+        :return: removes a record from the storage and saves it
         """
         print("Write phone number:")
         remove_phone_number_input = input()
@@ -92,7 +92,7 @@ class ConsoleInterface:
         ['All records have been erased']
 
 
-        :return:
+        :return: clears the storage and saves it
         """
         return self.storage.clear()
 
@@ -103,7 +103,7 @@ class ConsoleInterface:
         ['Record successfully updated']
 
 
-        :return:
+        :return: rewrites the chosen record in the storage to the input data
         """
         print("Write phone number:")
         update_phone_number_input = input()
@@ -118,7 +118,7 @@ class ConsoleInterface:
         """
 
 
-        :return:
+        :return: infinitely shows the choices
         """
         while True:
             self.update()
