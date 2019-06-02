@@ -59,7 +59,7 @@ def _get_record_resource_class(storage):
             :param record_number: Phone number of record
             :return: Nothing
             """
-            parsed_args = _list_records_parser.parse_args()
+            parsed_args = _update_record_parser.parse_args()
             storage.update(record_number, parsed_args['name'], parsed_args['address'])
 
         def delete(self, record_number):
