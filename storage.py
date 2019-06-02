@@ -21,13 +21,15 @@ class JsonRecordStorage:
         :return:
         """
         if self.get(number) is not None:
-            return
+            return "A record with this number already exists."
 
         rec_to_add = PhoneDirectoryRecord(number, name, address)
 
         self.records.append(rec_to_add)
 
         self._save()
+
+        return "Record added successfully"
 
     def remove(self, number: str):
         """
@@ -36,9 +38,14 @@ class JsonRecordStorage:
         :param number:
         :return:
         """
+        initial_size = len(self.records)
         self.records = [x for x in self.records if x.phone_number != number]
 
         self._save()
+        if initial_size == len(self.records):
+            return "Record successfully deleted"
+        else:
+            return "Record not found"
 
     def get(self, number: str):
         """
@@ -59,6 +66,8 @@ class JsonRecordStorage:
 
         self._save()
 
+        return "Records removed"
+
     def _save(self):
         """
 
@@ -68,7 +77,7 @@ class JsonRecordStorage:
         with open(self.fileName, 'w') as myfile:
             myfile.write(json.dumps(self.records, cls=PhoneDirectoryRecordEncoder))
 
-    def update(self, number: str, new_record_data: object):
+    def update(self, number: str, name: str, address: str):
         """
 
 
@@ -78,12 +87,14 @@ class JsonRecordStorage:
         """
         new_record = PhoneDirectoryRecord(
             number,
-            new_record_data["name"],
-            new_record_data["address"]
+            name,
+            address
         )
         self.records = [x if x.phone_number != number else new_record for x in self.records]
 
         self._save()
+
+        return "Record successfully updated"
 
     def list(self, offset: int, count: int) -> list:
         """

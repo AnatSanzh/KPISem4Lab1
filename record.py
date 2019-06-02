@@ -1,14 +1,14 @@
 class PhoneDirectoryRecord:
     """Object that describes phone book record"""
-    def write_record(self):
+    def to_string(self):
         """
         
 
         :return:
         """
-        print("Phone number: "+self.phone_number, end=",")
-        print("Name: "+self.name, end=",")
-        print("Address: "+self.address, end=";")
+        return "Phone number: " + self.phone_number + ", " +\
+               "Name: " + self.name + ", " +\
+               "Address: " + self.address + ";\n"
 
     def __init__(self, phone_number: str, name: str, address: str):
         self.phone_number = phone_number
