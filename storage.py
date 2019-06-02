@@ -12,6 +12,14 @@ class JsonRecordStorage:
             self.records = json.loads(myfile.read(), object_hook=phone_directory_record_decoder)
 
     def add(self, number: str, name: str, address: str):
+        """
+
+
+        :param number:
+        :param name:
+        :param address:
+        :return:
+        """
         if self.get(number) is not None:
             return
 
@@ -22,24 +30,60 @@ class JsonRecordStorage:
         self._save()
 
     def remove(self, number: str):
+        """
+
+
+        :param number:
+        :return:
+        """
         self.records = [x for x in self.records if x.phone_number != number]
 
         self._save()
 
     def get(self, number: str):
+        """
+
+
+        :param number:
+        :return:
+        """
         return next((x for x in self.records if x.phone_number == number), None)
 
     def clear(self):
+        """
+
+
+        :return:
+        """
         self.records = []
 
         self._save()
 
     def _save(self):
+        """
+
+
+        :return:
+        """
         with open(self.fileName, 'w') as myfile:
             myfile.write(json.dumps(self.records, cls=PhoneDirectoryRecordEncoder))
 
-    def update(self, number: str, new_record: PhoneDirectoryRecord):
+    def update(self, number: str, new_record_data: object):
+        """
+
+
+        :param number:
+        :param new_record_data:
+        :return:
+        """
+        new_record = PhoneDirectoryRecord(
+            number,
+            new_record_data["name"],
+            new_record_data["address"]
+        )
         self.records = [x if x.phone_number != number else new_record for x in self.records]
+
+        self._save()
 
     def list(self, offset: int, count: int) -> list:
         """
