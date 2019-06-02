@@ -6,7 +6,6 @@ class ConsoleInterface:
 
     def __init__(self, storage: JsonRecordStorage):
         self.storage = storage
-        self.active = True
         self.switcher = {
             1: self.show_recs,
             2: self.add_rec,
@@ -21,7 +20,13 @@ class ConsoleInterface:
 
         :return:
         """
-        print("\n1. Show records \n2. Add record \n3. Update record\n4. Remove records by phone number \n5. Erase all records \nEnter the command >>> ")
+        print("\n1. Show records"
+              "\n2. Add record"
+              "\n3. Update recor"
+              "\n4. Remove records by phone number"
+              "\n5. Erase all records"
+              "\nEnter the command >>> ")
+
         user_input = int(input())
 
         func = self.switcher.get(user_input, lambda: "Invalid command")
@@ -39,7 +44,7 @@ class ConsoleInterface:
             string_of_records = ""
             for record in self.storage.records:
                 string_of_records += record.to_string()
-            return string_of_records;
+            return string_of_records
 
     def add_rec(self):
         """
@@ -94,5 +99,5 @@ class ConsoleInterface:
 
         :return:
         """
-        while self.active:
+        while True:
             self.update()

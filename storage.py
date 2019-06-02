@@ -90,6 +90,10 @@ class JsonRecordStorage:
             name,
             address
         )
+
+        if self.get(number) is None:
+            return "Record not found"
+
         self.records = [x if x.phone_number != number else new_record for x in self.records]
 
         self._save()
