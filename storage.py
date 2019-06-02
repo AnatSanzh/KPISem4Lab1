@@ -40,7 +40,13 @@ class JsonRecordStorage:
 
     def update(self, number: str, new_record: PhoneDirectoryRecord):
         self.records = [x if x.phone_number != number else new_record for x in self.records]
-        pass
 
-    def list(self, offset: int, count: int):
-        pass
+    def list(self, offset: int, count: int) -> list:
+        """
+        Returns slice of whole array of records
+
+        :param offset: Offset from start
+        :param count: Count of records
+        :return:
+        """
+        return self.records[offset:offset+count]

@@ -17,6 +17,10 @@ _update_record_parser = reqparse.RequestParser()
 _update_record_parser.add_argument("address", type=str)
 _update_record_parser.add_argument("name", type=str)
 
+_list_records_parser = reqparse.RequestParser()
+_list_records_parser.add_argument("offset", type=int)
+_list_records_parser.add_argument("count", type=int)
+
 
 def _get_record_resource_class(storage):
     class _RecordResource(Resource):
@@ -34,6 +38,11 @@ def _get_record_resource_class(storage):
 
 def _get_records_resource_class(storage):
     class _RecordsResource(Resource):
+        def get(self):
+            parsed_args = _list_records_parser.parse_args()
+            list_to_send = storage.list(parsed_args["offset"], parsed_args["count"])
+            return json.dumps(list_to_send, cls=PhoneDirectoryRecordEncoder)
+
         def post(self):
             parsed_args = _add_record_parser.parse_args()
             storage.add(parsed_args["number"], parsed_args["name"], parsed_args["address"])
