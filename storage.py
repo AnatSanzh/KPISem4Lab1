@@ -38,14 +38,13 @@ class JsonRecordStorage:
         :param number:
         :return:
         """
-        initial_size = len(self.records)
-        self.records = [x for x in self.records if x.phone_number != number]
-
-        self._save()
-        if initial_size == len(self.records):
-            return "Record successfully deleted"
-        else:
+        if self.get(number) is None:
             return "Record not found"
+
+        self.records = [x for x in self.records if x.phone_number != number]
+        self._save()
+
+        return "Record successfully deleted"
 
     def get(self, number: str):
         """
