@@ -2,7 +2,6 @@ import json
 from record import PhoneDirectoryRecord
 from record_encoder import PhoneDirectoryRecordEncoder
 from record_decoder import phone_directory_record_decoder
-import doctest
 
 
 class JsonRecordStorage:
@@ -127,6 +126,7 @@ class JsonRecordStorage:
 
 
 if __name__ == "__main__":
+    import doctest
     doctest.testmod()
 
 
