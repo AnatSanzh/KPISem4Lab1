@@ -112,6 +112,9 @@ class JsonRecordStorage:
 
     def clear(self):
         """
+        >>> [JsonRecordStorage.clear(JsonRecordStorage("data/records_data.json"))]
+        ['All records have been erased']
+
         The function to clear the array and file
 
         :return: operation status
@@ -123,6 +126,7 @@ class JsonRecordStorage:
         return "All records have been erased"
 
 
-doctest.testmod()
+if __name__ == "__main__":
+    doctest.testmod()
 
 
