@@ -7,7 +7,9 @@ from flask_restful import reqparse, Resource, Api
 import json
 from record_encoder import PhoneDirectoryRecordEncoder
 import logging
-import threading
+from threading import Thread
+from fake_storage import MemoryRecordStorage
+from record import PhoneDirectoryRecord
 
 
 _add_record_parser = reqparse.RequestParser()
@@ -26,36 +28,46 @@ _list_records_parser.add_argument("count", type=int)
 
 def _get_record_resource_class(storage):
     """
+    >>> _get_record_resource_class(MemoryRecordStorage([ PhoneDirectoryRecord("a","b","c") ]))().get("a")
+    '{"phone_number": "a", "name": "b", "address": "c"}'
+
+    >>> memory = MemoryRecordStorage([ PhoneDirectoryRecord("a","b","c") ])
+    >>> _get_record_resource_class(memory)().delete("a")
+    >>> memory.get("a")
 
 
-    :param storage:
-    :return:
+    Factory method that produces classes that invoke operations on
+    distinct records.
+
+    :param storage: reference to the storage where entities are stored
+    :return: class that contains HTTP request method handlers
     """
     class _RecordResource(Resource):
-        def get(self, record_number):
+        def get(self, record_number: str) -> str:
             """
+            Returns record by number.
 
-
-            :param record_number:
-            :return:
+            :param record_number: Phone number of record to return
+            :return: JSON data of record encoded into string
             """
             return json.dumps(storage.get(record_number), cls=PhoneDirectoryRecordEncoder)
 
         def put(self, record_number):
             """
+            Modifies records properties by number
 
-
-            :param record_number:
-            :return:
+            :param record_number: Phone number of record
+            :return: Nothing
             """
-            storage.update(record_number, _update_record_parser.parse_args())
+            parsed_args = _list_records_parser.parse_args()
+            storage.update(record_number, parsed_args['name'], parsed_args['address'])
 
         def delete(self, record_number):
             """
+            Removes records properties by number
 
-
-            :param record_number:
-            :return:
+            :param record_number: Phone number of record
+            :return: Nothing
             """
             storage.remove(record_number)
 
@@ -64,17 +76,23 @@ def _get_record_resource_class(storage):
 
 def _get_records_resource_class(storage):
     """
+    >>> memory = MemoryRecordStorage([ PhoneDirectoryRecord("a","b","c") ])
+    >>> _get_records_resource_class(memory)().delete()
+    >>> memory.get("a")
 
 
-    :param storage:
-    :return:
+    Factory method that produces classes that invoke operations on
+    whole record list.
+
+    :param storage: reference to the storage where entities are stored
+    :return: class that contains HTTP request method handlers
     """
     class _RecordsResource(Resource):
         def get(self):
             """
+            Returns list of records of length 'count' from position 'offset'.
 
-
-            :return:
+            :return: JSON data of record list encoded into string
             """
             parsed_args = _list_records_parser.parse_args()
             list_to_send = storage.list(parsed_args["offset"], parsed_args["count"])
@@ -82,30 +100,30 @@ def _get_records_resource_class(storage):
 
         def post(self):
             """
+            Creates new record and adds it to list.
 
-
-            :return:
+            :return: Nothing
             """
             parsed_args = _add_record_parser.parse_args()
             storage.add(parsed_args["number"], parsed_args["name"], parsed_args["address"])
 
         def delete(self):
             """
+            Deletes all records.
 
-
-            :return:
+            :return: Nothing
             """
             storage.clear()
 
     return _RecordsResource
 
 
-def _server_worker_function(app):
+def _server_worker_function(app: Flask):
     """
+    Function that starts flask server.
 
-
-    :param app:
-    :return:
+    :param app: Flask server that will be started
+    :return: Nothing
     """
     app.run()
 
@@ -122,14 +140,16 @@ class Server:
 
     def run(self):
         """
+        Function that starts server in another thread.
+        Also disables server log.
 
-
-        :return:
+        :return: Nothing.
         """
+        self._underlying_app.logger.disabled = True
         log = logging.getLogger('werkzeug')
-        log.setLevel(logging.ERROR)
+        log.disabled = True
 
-        thread = threading.Thread(
+        thread = Thread(
             target=_server_worker_function,
             args=(self._underlying_app,)
         )

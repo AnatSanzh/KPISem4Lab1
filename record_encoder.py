@@ -1,15 +1,19 @@
-import json
-import record
+from json import JSONEncoder
+from record import PhoneDirectoryRecord
 
 
-class PhoneDirectoryRecordEncoder(json.JSONEncoder):
+class PhoneDirectoryRecordEncoder(JSONEncoder):
     def default(self, obj):
         """
+        >>> PhoneDirectoryRecordEncoder.default(None, PhoneDirectoryRecord("+390","that","there"))
+        {'phone_number': '+390', 'name': 'that', 'address': 'there'}
 
 
-        :param obj:
-        :return:
+        This function is used in order to serialize record to JSON.
+
+        :param obj: record object to serialize
+        :return: serialized record in JSON format
         """
-        if isinstance(obj, record.PhoneDirectoryRecord):
+        if isinstance(obj, PhoneDirectoryRecord):
             return obj.__dict__
-        return json.JSONEncoder.default(self, obj)
+        return JSONEncoder.default(self, obj)
