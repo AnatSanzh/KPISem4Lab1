@@ -76,7 +76,6 @@ class ConsoleInterface:
 
         :return:
         """
-        print("All records have been erased")
         return self.storage.clear()
 
     def update_rec(self):

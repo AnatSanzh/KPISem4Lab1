@@ -66,7 +66,7 @@ class JsonRecordStorage:
 
         self._save()
 
-        return "Records removed"
+        return "All records have been erased"
 
     def _save(self):
         """
