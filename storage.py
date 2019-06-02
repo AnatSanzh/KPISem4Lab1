@@ -53,7 +53,8 @@ class JsonRecordStorage:
 
 
         :param number:
-        :param new_record_data:
+        :param name:
+        :param address:
         :return:
         """
         new_record = PhoneDirectoryRecord(
