@@ -130,9 +130,9 @@ def _server_worker_function(app: Flask):
 
 class Server:
     """Class that allows to interact with phone book over Internet"""
-    def __init__(self, storage):
+    def __init__(self, storage, debug=False):
         self._underlying_app = Flask(__name__)
-        self._underlying_app.debug = False
+        self._underlying_app.debug = debug
 
         self._api = Api(self._underlying_app)
         self._api.add_resource(_get_record_resource_class(storage), '/record/<string:record_number>')
@@ -155,3 +155,6 @@ class Server:
         )
 
         thread.start()
+
+    def get_app(self):
+        return self._underlying_app
