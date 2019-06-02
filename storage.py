@@ -12,16 +12,16 @@ class JsonRecordStorage:
         with open(self.fileName, 'r') as myfile:
             self.records = json.loads(myfile.read(), object_hook=phone_directory_record_decoder)
 
-    """The function adds a new record to the array and file"""
     def add(self, number: str, name: str, address: str):
         """
         >>> [JsonRecordStorage.add(JsonRecordStorage("data/records_data.json"), "1234567890", "123", "123")]
         ['Record added successfully']
 
-        :param number:
-        :param name:
-        :param address:
-        :return:
+        The function adds a new record to the array and file
+        :param number: number of new record
+        :param name: name of new record
+        :param address: address of new record
+        :return: operation status
         """
         if self.get(number) is not None:
             return "A record with this number already exists."
@@ -34,27 +34,27 @@ class JsonRecordStorage:
 
         return "Record added successfully"
 
-    """the function finds an entry in the array"""
     def get(self, number: str):
         """
         >>> [JsonRecordStorage.get(JsonRecordStorage("data/records_data.json"), "1111111234567890111111")]
         [None]
 
-        :param number:
-        :return:
+        The function finds an entry in the array
+        :param number: number of the required record
+        :return: record by number
         """
         return next((x for x in self.records if x.phone_number == number), None)
 
-    """the function updates the record in the array and file"""
     def update(self, number: str, name: str, address: str):
         """
         >>> [JsonRecordStorage.update(JsonRecordStorage("data/records_data.json"), "1234567890111111", "123", "123")]
         ['Record not found']
 
-
-        :param number:
-        :param new_record_data:
-        :return:
+        The function updates the record in the array and file
+        :param number: number of record for update
+        :param name: new name value
+        :param address: new address value
+        :return: operation status
         """
         new_record = PhoneDirectoryRecord(
             number,
@@ -71,7 +71,6 @@ class JsonRecordStorage:
 
         return "Record successfully updated"
 
-    """the function deletes the record from the file and the array"""
     def remove(self, number: str):
         """
         >>> [JsonRecordStorage.remove(JsonRecordStorage("data/records_data.json"), "123456789011111")]
@@ -80,8 +79,9 @@ class JsonRecordStorage:
         >>> [JsonRecordStorage.remove(JsonRecordStorage("data/records_data.json"), "1234567890")]
         ['Record successfully deleted']
 
-        :param number:
-        :return:
+        The function deletes the record from the file and the array
+        :param number: number of record for delete
+        :return: operation status
         """
         if self.get(number) is None:
             return "Record not found"
@@ -91,32 +91,30 @@ class JsonRecordStorage:
 
         return "Record successfully deleted"
 
-    """the function saves data to file"""
     def _save(self):
         """
 
-
-        :return:
+        The function saves data to file
+        :return: None
         """
         with open(self.fileName, 'w') as myfile:
             myfile.write(json.dumps(self.records, cls=PhoneDirectoryRecordEncoder))
 
-    """the function returns a list of records"""
     def list(self, offset: int, count: int) -> list:
         """
         Returns slice of whole array of records
 
         :param offset: Offset from start
         :param count: Count of records
-        :return:
+        :return: sublist depending on parameters
         """
         return self.records[offset:offset+count]
 
-    """function to clear the array and file"""
     def clear(self):
         """
+        The function to clear the array and file
 
-        :return:
+        :return: operation status
         """
         self.records = []
 
