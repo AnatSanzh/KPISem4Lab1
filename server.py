@@ -157,4 +157,9 @@ class Server:
         thread.start()
 
     def get_app(self):
+        """
+        Returns underlying server app.
+
+        :return: underlying flask app
+        """
         return self._underlying_app
