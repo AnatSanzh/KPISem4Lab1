@@ -1,21 +1,6 @@
 from abstract_storage import RecordStorage
 from fake_storage import MemoryRecordStorage
-from io import StringIO
-import sys
-
-
-def io_helper_set_new(in_str: str):  # pragma: no cover
-    temp = [sys.stdin, sys.stdout]
-
-    sys.stdin = StringIO(in_str)
-    sys.stdout = StringIO()
-
-    return temp
-
-
-def io_helper_set_former(io_streams):  # pragma: no cover
-    sys.stdin = io_streams[0]
-    sys.stdout = io_streams[1]
+import io_helper
 
 
 _choices = "\n1. Show records" \
@@ -80,9 +65,9 @@ class ConsoleInterface:
 
     def add_rec(self):
         """
-        >>> temp = io_helper_set_new("12\\nname\\naddr\\n")
+        >>> temp = io_helper.set_new("12\\nname\\naddr\\n")
         >>> val= ConsoleInterface(MemoryRecordStorage([])).add_rec()
-        >>> io_helper_set_former(temp)
+        >>> io_helper.set_former(temp)
         >>> val
         'Record added successfully'
 
@@ -102,9 +87,9 @@ class ConsoleInterface:
 
     def remove_rec(self):
         """
-        >>> temp = io_helper_set_new("12\\n")
+        >>> temp = io_helper.set_new("12\\n")
         >>> res= ConsoleInterface(MemoryRecordStorage()).remove_rec()
-        >>> io_helper_set_former(temp)
+        >>> io_helper.set_former(temp)
         >>> res
         'Record not found'
 
@@ -129,9 +114,9 @@ class ConsoleInterface:
 
     def update_rec(self):
         """
-        >>> temp = io_helper_set_new("12\\nname\\naddr\\n")
+        >>> temp = io_helper.set_new("12\\nname\\naddr\\n")
         >>> res= ConsoleInterface(MemoryRecordStorage()).update_rec()
-        >>> io_helper_set_former(temp)
+        >>> io_helper.set_former(temp)
         >>> res
         'Record not found'
 
@@ -158,3 +143,8 @@ class ConsoleInterface:
         """
         while True:
             self.update()
+
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()

@@ -21,7 +21,7 @@ class JsonRecordStorage(RecordStorage):
     def add(self, number: str, name: str, address: str):
         """
         >>> JsonRecordStorage(
-        ... "data/records_data.json"
+        ... "data/records_test_data.json"
         ... ).add("1234567890", "123", "123")
         'Record added successfully'
 
@@ -45,7 +45,7 @@ class JsonRecordStorage(RecordStorage):
     def get(self, number: str):
         """
         >>> JsonRecordStorage(
-        ... "data/records_data.json"
+        ... "data/records_test_data.json"
         ... ).get( "1111111234567890111111") is None
         True
 
@@ -60,19 +60,15 @@ class JsonRecordStorage(RecordStorage):
     def update(self, number: str, name: str, address: str):
         """
         >>> JsonRecordStorage(
-        ... "data/records_data.json"
+        ... "data/records_test_data.json"
         ... ).update("1234567890111111", "123", "123")
         'Record not found'
 
-====================
-        HEAD
-====================
         The function updates the record in the array and file
         :param number: number of record for update
         :param name: new name value
         :param address: new address value
         :return: operation status
-====================
         """
         new_record = PhoneDirectoryRecord(
             number,
@@ -94,12 +90,12 @@ class JsonRecordStorage(RecordStorage):
     def remove(self, number: str):
         """
         >>> JsonRecordStorage(
-        ... "data/records_data.json"
+        ... "data/records_test_data.json"
         ... ).remove("123456789011111")
         'Record not found'
 
         >>> JsonRecordStorage(
-        ... "data/records_data.json"
+        ... "data/records_test_data.json"
         ... ).remove("1234567890")
         'Record not found'
 
@@ -140,7 +136,7 @@ class JsonRecordStorage(RecordStorage):
 
     def clear(self):
         """
-        >>> [JsonRecordStorage("data/records_data.json").clear()]
+        >>> [JsonRecordStorage("data/records_test_data.json").clear()]
         ['All records have been erased']
 
         The function to clear the array and file
