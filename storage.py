@@ -49,11 +49,19 @@ class JsonRecordStorage:
         >>> [JsonRecordStorage.update(JsonRecordStorage("data/records_data.json"), "1234567890111111", "123", "123")]
         ['Record not found']
 
+<<<<<<< HEAD
+
+        :param number:
+        :param name:
+        :param address:
+        :return:
+=======
         The function updates the record in the array and file
         :param number: number of record for update
         :param name: new name value
         :param address: new address value
         :return: operation status
+>>>>>>> 0ae09ca69a4f20025c3d086f94c65a729c176140
         """
         new_record = PhoneDirectoryRecord(
             number,
