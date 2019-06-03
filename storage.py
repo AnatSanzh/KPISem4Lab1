@@ -2,9 +2,10 @@ import json
 from record import PhoneDirectoryRecord
 from record_encoder import PhoneDirectoryRecordEncoder
 from record_decoder import phone_directory_record_decoder
+from abstract_storage import RecordStorage
 
 
-class JsonRecordStorage:
+class JsonRecordStorage(RecordStorage):
     """Class that can be used to interact with phone book record list. Saves data in json format"""
     def __init__(self, name: str):
         self.fileName = name
@@ -13,7 +14,7 @@ class JsonRecordStorage:
 
     def add(self, number: str, name: str, address: str):
         """
-        >>> [JsonRecordStorage.add(JsonRecordStorage("data/records_data.json"), "1234567890", "123", "123")]
+        >>> [JsonRecordStorage("data/records_data.json").add("1234567890", "123", "123")]
         ['Record added successfully']
 
         The function adds a new record to the array and file

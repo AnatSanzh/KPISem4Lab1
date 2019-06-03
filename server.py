@@ -10,7 +10,7 @@ import logging
 from threading import Thread
 from fake_storage import MemoryRecordStorage
 from record import PhoneDirectoryRecord
-
+from abstract_storage import RecordStorage
 
 _add_record_parser = reqparse.RequestParser()
 _add_record_parser.add_argument("number", type=str)
@@ -130,7 +130,7 @@ def _server_worker_function(app: Flask):
 
 class Server:
     """Class that allows to interact with phone book over Internet"""
-    def __init__(self, storage, debug=False):
+    def __init__(self, storage: RecordStorage, debug=False):
         self._underlying_app = Flask(__name__)
         self._underlying_app.debug = debug
 
@@ -138,7 +138,7 @@ class Server:
         self._api.add_resource(_get_record_resource_class(storage), '/record/<string:record_number>')
         self._api.add_resource(_get_records_resource_class(storage), '/records')
 
-    def run(self):
+    def run(self):  # pragma: no cover
         """
         Function that starts server in another thread.
         Also disables server log.
@@ -158,6 +158,9 @@ class Server:
 
     def get_app(self):
         """
+        >>> Server(MemoryRecordStorage()).get_app() is not None
+        True
+
         Returns underlying server app.
 
         :return: underlying flask app

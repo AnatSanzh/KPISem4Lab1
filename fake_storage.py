@@ -1,7 +1,8 @@
 from record import PhoneDirectoryRecord
+from abstract_storage import RecordStorage
 
 
-class MemoryRecordStorage:
+class MemoryRecordStorage(RecordStorage):
     """Class that can be used to test functions that rely on real storage"""
     def __init__(self, initial_list: list = []):
         self.records = initial_list

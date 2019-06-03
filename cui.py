@@ -1,10 +1,27 @@
-from storage import JsonRecordStorage
+from abstract_storage import RecordStorage
+from fake_storage import MemoryRecordStorage
+from io import StringIO
+import sys
+
+
+def io_helper_set_new(in_str: str):  # pragma: no cover
+    temp = [sys.stdin, sys.stdout]
+
+    sys.stdin = StringIO(in_str)
+    sys.stdout = StringIO()
+
+    return temp
+
+
+def io_helper_set_former(io_streams):  # pragma: no cover
+    sys.stdin = io_streams[0]
+    sys.stdout = io_streams[1]
 
 
 class ConsoleInterface:
     """Class that provides CUI that allows to interact with phone record list"""
 
-    def __init__(self, storage: JsonRecordStorage):
+    def __init__(self, storage: RecordStorage):
         self.storage = storage
         self.switcher = {
             1: self.show_recs,
@@ -14,7 +31,7 @@ class ConsoleInterface:
             5: self.remove_all_recs
         }
 
-    def update(self):
+    def update(self):  # pragma: no cover
         """
 
         function outputs console interface and responds user input
@@ -55,8 +72,11 @@ class ConsoleInterface:
 
     def add_rec(self):
         """
-        >>> [ConsoleInterface.add_rec(ConsoleInterface())]
-        ['Record added successfully']
+        >>> temp = io_helper_set_new("12\\nname\\naddr\\n")
+        >>> val= ConsoleInterface(MemoryRecordStorage([])).add_rec()
+        >>> io_helper_set_former(temp)
+        >>> val
+        'Record added successfully'
 
 
         function implements interface that adds record
@@ -72,8 +92,11 @@ class ConsoleInterface:
 
     def remove_rec(self):
         """
-        >>> [ConsoleInterface.remove_rec(ConsoleInterface())]
-        ['Record not found']
+        >>> temp = io_helper_set_new("12\\n")
+        >>> res= ConsoleInterface(MemoryRecordStorage()).remove_rec()
+        >>> io_helper_set_former(temp)
+        >>> res
+        'Record not found'
 
 
         function implements interface that removes record
@@ -85,7 +108,7 @@ class ConsoleInterface:
 
     def remove_all_recs(self):
         """
-        >>> [ConsoleInterface.remove_rec(ConsoleInterface())]
+        >>> [ConsoleInterface(MemoryRecordStorage()).remove_all_recs()]
         ['All records have been erased']
 
 
@@ -96,8 +119,11 @@ class ConsoleInterface:
 
     def update_rec(self):
         """
-        >>> [ConsoleInterface.update_rec(ConsoleInterface())]
-        ['Record successfully updated']
+        >>> temp = io_helper_set_new("12\\nname\\naddr\\n")
+        >>> res= ConsoleInterface(MemoryRecordStorage()).update_rec()
+        >>> io_helper_set_former(temp)
+        >>> res
+        'Record not found'
 
 
         function implements interface that updates record
@@ -111,7 +137,7 @@ class ConsoleInterface:
         update_address_input = input()
         return self.storage.update(update_phone_number_input, update_name_input, update_address_input)
 
-    def run(self):
+    def run(self):  # pragma: no cover
         """
 
 
