@@ -14,11 +14,10 @@ class ConsoleInterface:
             5: self.remove_all_recs
         }
 
-    """function outputs console interface and responds user input"""
     def update(self):
         """
 
-
+        function outputs console interface and responds user input
         :return: one of 5 results on user`s choice
         """
         print("\n1. Show records"
@@ -40,11 +39,10 @@ class ConsoleInterface:
         func = self.switcher.get(user_input, lambda: "Invalid command")
         print(func())
 
-    """function implements interface that outputs all records"""
     def show_recs(self):
         """
 
-
+        function implements interface that outputs all records
         :return: a string to which all records are appended
         """
         if len(self.storage.records) == 0:
@@ -55,13 +53,13 @@ class ConsoleInterface:
                 string_of_records += record.to_string()
             return string_of_records
 
-    """function implements interface that adds record"""
     def add_rec(self):
         """
         >>> [ConsoleInterface.add_rec(ConsoleInterface())]
         ['Record added successfully']
 
 
+        function implements interface that adds record
         :return: adds record to the storage and saves it
         """
         print("Write phone number:")
@@ -72,37 +70,37 @@ class ConsoleInterface:
         add_address_input = input()
         return self.storage.add(add_phone_number_input, add_name_input, add_address_input)
 
-    """function implements interface that removes record"""
     def remove_rec(self):
         """
         >>> [ConsoleInterface.remove_rec(ConsoleInterface())]
         ['Record not found']
 
 
+        function implements interface that removes record
         :return: removes a record from the storage and saves it
         """
         print("Write phone number:")
         remove_phone_number_input = input()
         return self.storage.remove(remove_phone_number_input)
 
-    """function implements interface that removes all records"""
     def remove_all_recs(self):
         """
         >>> [ConsoleInterface.remove_rec(ConsoleInterface())]
         ['All records have been erased']
 
 
+        function implements interface that removes all records
         :return: clears the storage and saves it
         """
         return self.storage.clear()
 
-    """function implements interface that updates record"""
     def update_rec(self):
         """
         >>> [ConsoleInterface.update_rec(ConsoleInterface())]
         ['Record successfully updated']
 
 
+        function implements interface that updates record
         :return: rewrites the chosen record in the storage to the input data
         """
         print("Write phone number:")
@@ -113,11 +111,11 @@ class ConsoleInterface:
         update_address_input = input()
         return self.storage.update(update_phone_number_input, update_name_input, update_address_input)
 
-    """function runs loop for infinite menu output"""
     def run(self):
         """
 
 
+        function runs loop for infinite menu output
         :return: infinitely shows the choices
         """
         while True:
