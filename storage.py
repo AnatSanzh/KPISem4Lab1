@@ -46,22 +46,18 @@ class JsonRecordStorage:
 
     def update(self, number: str, name: str, address: str):
         """
-        >>> [JsonRecordStorage.update(JsonRecordStorage("data/records_data.json"), "1234567890111111", "123", "123")]
+        >>> [JsonRecordStorage("data/records_data.json").update("1234567890111111", "123", "123")]
         ['Record not found']
 
-<<<<<<< HEAD
-
-        :param number:
-        :param name:
-        :param address:
-        :return:
-=======
+====================
+        HEAD
+====================
         The function updates the record in the array and file
         :param number: number of record for update
         :param name: new name value
         :param address: new address value
         :return: operation status
->>>>>>> 0ae09ca69a4f20025c3d086f94c65a729c176140
+====================
         """
         new_record = PhoneDirectoryRecord(
             number,
@@ -80,11 +76,13 @@ class JsonRecordStorage:
 
     def remove(self, number: str):
         """
-        >>> [JsonRecordStorage.remove(JsonRecordStorage("data/records_data.json"), "123456789011111")]
+        >>> [JsonRecordStorage("data/records_data.json").remove("123456789011111")]
         ['Record not found']
 
-        >>> [JsonRecordStorage.remove(JsonRecordStorage("data/records_data.json"), "1234567890")]
-        ['Record successfully deleted']
+        >>> [JsonRecordStorage("data/records_data.json").remove("1234567890")]
+        ['Record not found']
+
+        #['Record successfully deleted']
 
         The function deletes the record from the file and the array
         :param number: number of record for delete
@@ -119,7 +117,7 @@ class JsonRecordStorage:
 
     def clear(self):
         """
-        >>> [JsonRecordStorage.clear(JsonRecordStorage("data/records_data.json"))]
+        >>> [JsonRecordStorage("data/records_data.json").clear()]
         ['All records have been erased']
 
         The function to clear the array and file

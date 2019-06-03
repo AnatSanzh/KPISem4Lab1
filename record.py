@@ -3,7 +3,7 @@ class PhoneDirectoryRecord:
     def to_string(self):
         """
         Convert object to string
-        >>> [PhoneDirectoryRecord.to_string(PhoneDirectoryRecord("123", "123", "123"))]
+        >>> [PhoneDirectoryRecord("123", "123", "123").to_string()]
         ['Phone number: 123, Name: 123, Address: 123\\n']
 
         :return: string
