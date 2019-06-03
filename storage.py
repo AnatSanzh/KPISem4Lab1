@@ -6,16 +6,24 @@ from abstract_storage import RecordStorage
 
 
 class JsonRecordStorage(RecordStorage):
-    """Class that can be used to interact with phone book record list. Saves data in json format"""
+    """
+    Class that can be used to interact with phone book record list.
+    Saves data in json format
+    """
     def __init__(self, name: str):
         self.fileName = name
         with open(self.fileName, 'r') as myfile:
-            self.records = json.loads(myfile.read(), object_hook=phone_directory_record_decoder)
+            self.records = json.loads(
+                myfile.read(),
+                object_hook=phone_directory_record_decoder
+            )
 
     def add(self, number: str, name: str, address: str):
         """
-        >>> [JsonRecordStorage("data/records_data.json").add("1234567890", "123", "123")]
-        ['Record added successfully']
+        >>> JsonRecordStorage(
+        ... "data/records_data.json"
+        ... ).add("1234567890", "123", "123")
+        'Record added successfully'
 
         The function adds a new record to the array and file
         :param number: number of new record
@@ -36,19 +44,25 @@ class JsonRecordStorage(RecordStorage):
 
     def get(self, number: str):
         """
-        >>> [JsonRecordStorage.get(JsonRecordStorage("data/records_data.json"), "1111111234567890111111")]
-        [None]
+        >>> JsonRecordStorage(
+        ... "data/records_data.json"
+        ... ).get( "1111111234567890111111") is None
+        True
 
         The function finds an entry in the array
         :param number: number of the required record
         :return: record by number
         """
-        return next((x for x in self.records if x.phone_number == number), None)
+        return next(
+            (x for x in self.records if x.phone_number == number),
+            None)
 
     def update(self, number: str, name: str, address: str):
         """
-        >>> [JsonRecordStorage("data/records_data.json").update("1234567890111111", "123", "123")]
-        ['Record not found']
+        >>> JsonRecordStorage(
+        ... "data/records_data.json"
+        ... ).update("1234567890111111", "123", "123")
+        'Record not found'
 
 ====================
         HEAD
@@ -69,7 +83,9 @@ class JsonRecordStorage(RecordStorage):
         if self.get(number) is None:
             return "Record not found"
 
-        self.records = [x if x.phone_number != number else new_record for x in self.records]
+        self.records = [
+            x if x.phone_number != number else new_record for x in self.records
+        ]
 
         self._save()
 
@@ -77,11 +93,15 @@ class JsonRecordStorage(RecordStorage):
 
     def remove(self, number: str):
         """
-        >>> [JsonRecordStorage("data/records_data.json").remove("123456789011111")]
-        ['Record not found']
+        >>> JsonRecordStorage(
+        ... "data/records_data.json"
+        ... ).remove("123456789011111")
+        'Record not found'
 
-        >>> [JsonRecordStorage("data/records_data.json").remove("1234567890")]
-        ['Record not found']
+        >>> JsonRecordStorage(
+        ... "data/records_data.json"
+        ... ).remove("1234567890")
+        'Record not found'
 
         #['Record successfully deleted']
 
@@ -104,7 +124,9 @@ class JsonRecordStorage(RecordStorage):
         :return: None
         """
         with open(self.fileName, 'w') as myfile:
-            myfile.write(json.dumps(self.records, cls=PhoneDirectoryRecordEncoder))
+            myfile.write(
+                json.dumps(self.records, cls=PhoneDirectoryRecordEncoder)
+            )
 
     def list(self, offset: int, count: int) -> list:
         """
@@ -135,5 +157,3 @@ class JsonRecordStorage(RecordStorage):
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
-
-

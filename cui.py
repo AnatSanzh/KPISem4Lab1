@@ -18,8 +18,18 @@ def io_helper_set_former(io_streams):  # pragma: no cover
     sys.stdout = io_streams[1]
 
 
+_choices = "\n1. Show records" \
+            "\n2. Add record " \
+            "\n3. Update record" \
+            "\n4. Remove records by phone number" \
+            "\n5. Erase all records " \
+            "\nEnter the command >>> "
+
+
 class ConsoleInterface:
-    """Class that provides CUI that allows to interact with phone record list"""
+    """
+    Class that provides CUI that allows to interact with phone record list
+    """
 
     def __init__(self, storage: RecordStorage):
         self.storage = storage
@@ -37,21 +47,19 @@ class ConsoleInterface:
         function outputs console interface and responds user input
         :return: one of 5 results on user`s choice
         """
-        print("\n1. Show records"
-              "\n2. Add record"
-              "\n3. Update record"
-              "\n4. Remove records by phone number"
-              "\n5. Erase all records"
-              "\nEnter the command >>> ")
+        print(_choices)
 
         while True:
             try:
                 user_input = int(input())
                 if user_input < 1 or user_input > 5:
-                    raise ValueError  # this will send it to the print message and back to the input option
+                    raise ValueError
+                    # this will send it to the
+                    # print message and back to the input option
                 break
             except ValueError:
-                print("Invalid integer. The number must be in the range of 1-5.")
+                print("Invalid integer. "
+                      "The number must be in the range of 1-5.")
 
         func = self.switcher.get(user_input, lambda: "Invalid command")
         print(func())
@@ -88,7 +96,9 @@ class ConsoleInterface:
         add_name_input = input()
         print("Write address:")
         add_address_input = input()
-        return self.storage.add(add_phone_number_input, add_name_input, add_address_input)
+        return self.storage.add(
+            add_phone_number_input, add_name_input, add_address_input
+        )
 
     def remove_rec(self):
         """
@@ -135,7 +145,9 @@ class ConsoleInterface:
         update_name_input = input()
         print("Write new address:")
         update_address_input = input()
-        return self.storage.update(update_phone_number_input, update_name_input, update_address_input)
+        return self.storage.update(
+            update_phone_number_input, update_name_input, update_address_input
+        )
 
     def run(self):  # pragma: no cover
         """

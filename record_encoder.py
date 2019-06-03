@@ -5,7 +5,9 @@ from record import PhoneDirectoryRecord
 class PhoneDirectoryRecordEncoder(JSONEncoder):
     def default(self, obj):
         """
-        >>> PhoneDirectoryRecordEncoder.default(None, PhoneDirectoryRecord("+390","that","there"))
+        >>> PhoneDirectoryRecordEncoder.default(
+        ... None,
+        ... PhoneDirectoryRecord("+390","that","there"))
         {'phone_number': '+390', 'name': 'that', 'address': 'there'}
 
 

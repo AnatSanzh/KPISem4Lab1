@@ -47,14 +47,18 @@ class MemoryRecordStorage(RecordStorage):
 
     def get(self, number: str) -> PhoneDirectoryRecord:
         """
-        >>> MemoryRecordStorage([ PhoneDirectoryRecord("num","nam","adr") ]).get("num").__dict__
+        >>> MemoryRecordStorage(
+        ... [ PhoneDirectoryRecord("num","nam","adr") ]
+        ... ).get("num").__dict__
         {'phone_number': 'num', 'name': 'nam', 'address': 'adr'}
 
         The function finds an entry in the array
         :param number: number of the required record
         :return: record by number
         """
-        return next((x for x in self.records if x.phone_number == number), None)
+        return next(
+            (x for x in self.records if x.phone_number == number),
+            None)
 
     def clear(self) -> str:
         """
@@ -88,13 +92,17 @@ class MemoryRecordStorage(RecordStorage):
             name,
             address
         )
-        self.records = [x if x.phone_number != number else new_record for x in self.records]
+        self.records = [
+            x if x.phone_number != number else new_record for x in self.records
+        ]
 
         return "Record successfully updated"
 
     def list(self, offset: int, count: int) -> list:
         """
-        >>> MemoryRecordStorage([ PhoneDirectoryRecord("a","b","c"), PhoneDirectoryRecord("v","b","n") ]).list(1,2)[0].__dict__
+        >>> MemoryRecordStorage(
+        ... [ PhoneDirectoryRecord("a","b","c"),
+        ... PhoneDirectoryRecord("v","b","n") ]).list(1,2)[0].__dict__
         {'phone_number': 'v', 'name': 'b', 'address': 'n'}
 
         Returns slice of whole array of records.

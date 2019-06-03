@@ -28,7 +28,9 @@ _list_records_parser.add_argument("count", type=int)
 
 def _get_record_resource_class(storage):
     """
-    >>> _get_record_resource_class(MemoryRecordStorage([ PhoneDirectoryRecord("a","b","c") ]))().get("a")
+    >>> _get_record_resource_class(
+    ... MemoryRecordStorage([ PhoneDirectoryRecord("a","b","c") ])
+    ... )().get("a")
     '{"phone_number": "a", "name": "b", "address": "c"}'
 
     >>> memory = MemoryRecordStorage([ PhoneDirectoryRecord("a","b","c") ])
@@ -50,7 +52,10 @@ def _get_record_resource_class(storage):
             :param record_number: Phone number of record to return
             :return: JSON data of record encoded into string
             """
-            return json.dumps(storage.get(record_number), cls=PhoneDirectoryRecordEncoder)
+            return json.dumps(
+                storage.get(record_number),
+                cls=PhoneDirectoryRecordEncoder
+            )
 
         def put(self, record_number):
             """
@@ -60,7 +65,11 @@ def _get_record_resource_class(storage):
             :return: Nothing
             """
             parsed_args = _update_record_parser.parse_args()
-            storage.update(record_number, parsed_args['name'], parsed_args['address'])
+            storage.update(
+                record_number,
+                parsed_args['name'],
+                parsed_args['address']
+            )
 
         def delete(self, record_number):
             """
@@ -95,7 +104,10 @@ def _get_records_resource_class(storage):
             :return: JSON data of record list encoded into string
             """
             parsed_args = _list_records_parser.parse_args()
-            list_to_send = storage.list(parsed_args["offset"], parsed_args["count"])
+            list_to_send = storage.list(
+                parsed_args["offset"],
+                parsed_args["count"]
+            )
             return json.dumps(list_to_send, cls=PhoneDirectoryRecordEncoder)
 
         def post(self):
@@ -105,7 +117,11 @@ def _get_records_resource_class(storage):
             :return: Nothing
             """
             parsed_args = _add_record_parser.parse_args()
-            storage.add(parsed_args["number"], parsed_args["name"], parsed_args["address"])
+            storage.add(
+                parsed_args["number"],
+                parsed_args["name"],
+                parsed_args["address"]
+            )
 
         def delete(self):
             """
@@ -135,8 +151,12 @@ class Server:
         self._underlying_app.debug = debug
 
         self._api = Api(self._underlying_app)
-        self._api.add_resource(_get_record_resource_class(storage), '/record/<string:record_number>')
-        self._api.add_resource(_get_records_resource_class(storage), '/records')
+        self._api.add_resource(
+            _get_record_resource_class(storage),
+            '/record/<string:record_number>')
+        self._api.add_resource(
+            _get_records_resource_class(storage),
+            '/records')
 
     def run(self):  # pragma: no cover
         """
